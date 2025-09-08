@@ -1,0 +1,86 @@
+{
+  "info": {
+    "_postman_id": "b8f3e8a0-5c1d-4f3e-8d5c-1d4f3e8d5c1d",
+    "name": "ciandt-flow-genai-chatbot",
+    "description": "Collection for testing the CI&T Flow GenAI Chatbot backend integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Root Endpoint",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        },
+        "description": "Root endpoint that returns a welcome message"
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health"]
+        },
+        "description": "Check the health of the application, Flow API connection, and RAG documents path"
+      },
+      "response": []
+    },
+    {
+      "name": "Generate Text",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/generate",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "generate"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"prompt\": \"What is artificial intelligence?\",\n    \"max_tokens\": 3000,\n    \"model\": \"gpt-4o\",\n    \"stream\": false\n}"
+        },
+        "description": "Generate text using the Flow API's OpenAI Chat Completions endpoint"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ]
+}
