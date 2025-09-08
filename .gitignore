@@ -43,6 +43,7 @@ data/rag_documents/*
 !.vscode/extensions.json
 *.sublime-workspace
 *.sublime-project
+.coder-ide/
 
 # Testing
 .coverage
