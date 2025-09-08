@@ -6,6 +6,7 @@ import os
 import sys
 
 from src.api.routes import router as api_router
+from src.api.rag_routes import router as rag_router
 from src.config.settings import settings
 from src.utils.validators import validate_rag_documents_path
 from src.core.token_manager import TokenManager
@@ -35,6 +36,7 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(api_router)
+app.include_router(rag_router)
 
 
 @app.on_event("startup")
@@ -54,7 +56,12 @@ async def startup_event():
         sys.exit(1)
     else:
         logger.info(f"RAG documents path validated: {settings.rag_documents_path}")
-    
+
+    # Log RAG configuration
+    logger.info(f"RAG chunk size: {settings.rag_chunk_size}")
+    logger.info(f"RAG chunk overlap: {settings.rag_chunk_overlap}")
+    logger.info(f"RAG embedding model: {settings.rag_embedding_model}")
+
     # Pre-fetch and cache token
     logger.info("Pre-fetching and caching access token...")
     token_manager = TokenManager()

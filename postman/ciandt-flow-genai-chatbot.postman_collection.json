@@ -54,6 +54,45 @@
         "description": "Generate text using the Flow API's OpenAI Chat Completions endpoint"
       },
       "response": []
+    },
+    {
+      "name": "RAG - Get Document Stats",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/stats",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "stats"]
+        },
+        "description": "Get statistics about the documents in the RAG folder"
+      },
+      "response": []
+    },
+    {
+      "name": "RAG - Process Documents",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/process",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "process"]
+        },
+        "description": "Load and process documents from the RAG folder"
+      },
+      "response": []
+    },
+    {
+      "name": "RAG - Initialize Embeddings",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/initialize-embeddings",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "initialize-embeddings"]
+        },
+        "description": "Initialize the embedding model"
+      },
+      "response": []
     }
   ],
   "event": [

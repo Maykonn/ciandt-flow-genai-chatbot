@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Body
 from pydantic import BaseModel
 from typing import Dict, Any, Optional, List
 
 from ..config.settings import settings
 from ..core.flow_client import FlowAPIClient
 from ..utils.validators import validate_flow_api_connection, validate_rag_documents_path
+from ..rag.rag_manager import RAGManager  # Import RAGManager
 
 router = APIRouter(prefix="/api", tags=["flow"])
 
@@ -62,6 +63,7 @@ class GenerateTextRequest(BaseModel):
     model: str = "gpt-4o"
     stream: bool = False
     messages: Optional[List[Message]] = None
+    use_rag: bool = True  # Add a toggle for RAG
 
 
 class GenerateTextResponse(BaseModel):
@@ -76,6 +78,37 @@ async def generate_text(request: GenerateTextRequest):
     """
     client = FlowAPIClient()
     try:
+        actual_prompt = request.prompt
+
+        # If RAG is enabled, enhance the prompt with relevant document content
+        if request.use_rag:
+            rag_manager = RAGManager()
+
+            # Make sure embeddings are initialized
+            rag_manager.initialize_embeddings()
+
+            # Retrieve relevant documents based on the query
+            relevant_docs = rag_manager.retrieve_relevant_documents(request.prompt)
+
+            if relevant_docs and len(relevant_docs) > 0:
+                # Create context from relevant documents
+                context = "\n\n".join([doc.page_content for doc in relevant_docs])
+
+                # Create enhanced prompt with context
+                enhanced_prompt = f"""
+                Answer the question based on the following context:
+
+                Context:
+                {context}
+
+                Question: {request.prompt}
+
+                Answer:
+                """
+
+                # Use the enhanced prompt instead of the original
+                actual_prompt = enhanced_prompt
+
         # If messages are provided, use them instead of the prompt
         if request.messages:
             # Convert messages to the format expected by the API
@@ -90,7 +123,7 @@ async def generate_text(request: GenerateTextRequest):
         else:
             # Use the prompt
             response = await client.generate_text(
-                request.prompt,
+                actual_prompt,
                 max_tokens=request.max_tokens,
                 model=request.model,
                 stream=request.stream

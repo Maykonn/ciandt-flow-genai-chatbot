@@ -24,6 +24,7 @@ wheels/
 venv/
 env/
 ENV/
+source/
 .env
 
 # Token cache
@@ -36,13 +37,14 @@ data/rag_documents/*
 
 # IDE specific files
 .idea/
-.vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 *.sublime-workspace
 *.sublime-project
+.coder/
 .coder-ide/
 
 # Testing
