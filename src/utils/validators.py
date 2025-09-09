@@ -56,3 +56,28 @@ def validate_rag_documents_path(path: str) -> bool:
     
     return True
 
+
+def validate_vector_store(persist_directory: str = None) -> bool:
+    """
+    Validate that the vector store is properly initialized and accessible.
+
+    Args:
+        persist_directory: Optional path to the vector store directory
+
+    Returns:
+        Boolean indicating if the vector store is valid
+    """
+    try:
+        from src.rag.vector_store import VectorStore
+
+        # Initialize vector store with the provided directory or default
+        vector_store = VectorStore(persist_directory=persist_directory)
+
+        # Try to get collection stats to verify it's working
+        stats = vector_store.get_collection_stats()
+
+        logger.info(f"Vector store validated with {stats['document_count']} documents")
+        return True
+    except Exception as e:
+        logger.error(f"Vector store validation failed: {e}")
+        return False

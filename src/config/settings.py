@@ -94,13 +94,27 @@ class Settings(BaseSettings):
         json_schema_extra={"env": "RAG_EMBEDDING_MODEL"}
     )
     
+    # Auto-indexing setting
+    auto_index_on_startup: bool = Field(
+        default=False,
+        description="Whether to automatically index documents on startup",
+        json_schema_extra={"env": "AUTO_INDEX_ON_STARTUP"}
+    )
+    
+    # Vector store settings
+    vector_store_directory: str = Field(
+        default="./data/vector_db",
+        description="Path to vector store directory",
+        json_schema_extra={"env": "VECTOR_STORE_DIRECTORY"}
+    )
+
     # Application settings
     log_level: str = Field(
         default="INFO",
         description="Logging level",
         json_schema_extra={"env": "LOG_LEVEL"}
     )
-    
+
     model_config = {
         "env_prefix": "APP_",
         "case_sensitive": False,

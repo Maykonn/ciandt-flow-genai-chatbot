@@ -107,3 +107,17 @@ def test_settings_required_fields():
     for field_name in required_fields:
         field = Settings.__annotations__[field_name]
         assert field_name in Settings.__annotations__, f"{field_name} should be defined in Settings"
+
+def test_vector_store_settings():
+    """Test that Settings includes vector store settings."""
+    # Create a new Settings instance with default values
+    settings = Settings(
+        # Provide values for required fields to avoid validation errors
+        flow_api_token="test-token",
+        flow_api_base_url="https://test.com",
+        flow_api_client_id="test-client-id"
+    )
+
+    # Check vector store settings
+    assert settings.vector_store_directory == "./data/vector_db"
+    assert settings.auto_index_on_startup is False

@@ -93,6 +93,95 @@
         "description": "Initialize the embedding model"
       },
       "response": []
+    },
+    {
+      "name": "Vector Store - Get Stats",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/vector-store",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "vector-store"]
+        },
+        "description": "Get statistics about the vector store"
+      },
+      "response": []
+    },
+    {
+      "name": "Vector Store - Clear",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/vector-store",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "vector-store"]
+        },
+        "description": "Clear all documents from the vector store"
+      },
+      "response": []
+    },
+    {
+      "name": "Vector Store - Query",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/query",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "query"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"query\": \"What is artificial intelligence?\",\n    \"top_k\": 3\n}"
+        },
+        "description": "Query the vector store for relevant documents"
+      },
+      "response": []
+    },
+    {
+      "name": "RAG - Reindex Documents",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/reindex?force=false",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "reindex"],
+          "query": [
+            {
+              "key": "force",
+              "value": "false",
+              "description": "Whether to force reindexing by clearing the vector store first"
+            }
+          ]
+        },
+        "description": "Reindex all documents in the RAG folder"
+      },
+      "response": []
+    },
+    {
+      "name": "RAG - Process Documents with Indexing",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/rag/process?index_to_vector_store=true",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rag", "process"],
+          "query": [
+            {
+              "key": "index_to_vector_store",
+              "value": "true",
+              "description": "Whether to index documents to the vector store"
+            }
+          ]
+        },
+        "description": "Load and process documents from the RAG folder and index them to the vector store"
+      },
+      "response": []
     }
   ],
   "event": [

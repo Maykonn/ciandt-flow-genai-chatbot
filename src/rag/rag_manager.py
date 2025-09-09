@@ -9,6 +9,7 @@ from src.config.settings import settings
 from src.rag.document_loader import DocumentLoader
 from src.rag.document_processor import DocumentProcessor
 from src.rag.embedding_manager import EmbeddingManager
+from src.rag.vector_store import VectorStore  # Import the VectorStore
 
 logger = logging.getLogger(__name__)
 
@@ -44,13 +45,24 @@ class RAGManager:
         )
         
         self.embedding_manager = EmbeddingManager(
-            model_name=settings.rag_embedding_model
+            model_name=embedding_model or settings.rag_embedding_model
         )
         
+        # Initialize the vector store
+        self.vector_store = VectorStore()
+
         logger.info("Initialized RAGManager")
     
-    def load_and_process_documents(self):
-        """Load and process documents from the RAG folder."""
+    def load_and_process_documents(self, index_to_vector_store: bool = True) -> List[Document]:
+        """
+        Load and process documents from the RAG folder.
+        
+        Args:
+            index_to_vector_store: Whether to index documents to the vector store
+            
+        Returns:
+            List of processed documents
+        """
         try:
             # Load documents
             documents = self.document_loader.load_documents()
@@ -64,6 +76,16 @@ class RAGManager:
         
             # Store processed documents for later retrieval
             self._processed_documents = processed_docs
+            
+            # Index documents to vector store if requested
+            if index_to_vector_store and processed_docs:
+                logger.info("Indexing documents to vector store")
+                try:
+                    self.vector_store.add_documents(processed_docs)
+                    logger.info(f"Indexed {len(processed_docs)} documents to vector store")
+                except Exception as e:
+                    logger.error(f"Error indexing documents to vector store: {e}")
+            
             return processed_docs
         except Exception as e:
             logging.error(f"Error loading and processing documents: {str(e)}")
@@ -82,74 +104,41 @@ class RAGManager:
             logging.error(f"Error initializing embeddings: {str(e)}")
             return False
 
-    def _cosine_similarity(self, vec1, vec2):
-        """Calculate cosine similarity between two vectors."""
-        dot_product = np.dot(vec1, vec2)
-        norm1 = np.linalg.norm(vec1)
-        norm2 = np.linalg.norm(vec2)
-        return dot_product / (norm1 * norm2)
-
-    def retrieve_relevant_documents(self, query, top_k=3):
+    def retrieve_relevant_documents(self, query, top_k=3) -> List[Document]:
         """
-        Retrieve documents relevant to the query.
+        Retrieve documents relevant to the query using the vector store.
+
         Args:
             query: The user query
             top_k: Number of documents to retrieve
+
         Returns:
             List of relevant Document objects
         """
         try:
-            # Make sure documents are loaded and processed
-            documents = self.load_and_process_documents()
+            logger.info(f"Retrieving relevant documents for query: '{query[:50]}...'")
 
-            if not documents:
-                logging.warning("No documents available for retrieval")
-                return []
+            # Use the vector store for retrieval
+            relevant_docs = self.vector_store.similarity_search(query, k=top_k)
 
-            # Make sure embeddings are initialized
-            if not self.embedding_manager.embedding_model:
-                success = self.initialize_embeddings()
-                if not success:
-                    logging.error("Failed to initialize embeddings")
-                    return []
-
-            # Get query embedding
-            query_embedding = self.embedding_manager.get_embeddings([query])
-            if not query_embedding:
-                logging.error("Failed to generate query embedding")
-                return []
-
-            # If query_embedding is a list with one item, extract it
-            if isinstance(query_embedding, list) and len(query_embedding) == 1:
-                query_embedding = query_embedding[0]
-
-            # Calculate similarity with all document chunks
-            similarities = []
-            for i, doc in enumerate(documents):
-                # Get document embedding
-                doc_content = doc.page_content
-                doc_embedding = self.embedding_manager.get_embeddings([doc_content])
-
-                if doc_embedding:
-                    # If doc_embedding is a list with one item, extract it
-                    if isinstance(doc_embedding, list) and len(doc_embedding) == 1:
-                        doc_embedding = doc_embedding[0]
-
-                    # Calculate cosine similarity
-                    similarity = self._cosine_similarity(query_embedding, doc_embedding)
-                    similarities.append((i, similarity))
-
-            # Sort by similarity (highest first)
-            similarities.sort(key=lambda x: x[1], reverse=True)
-
-            # Return top_k most relevant documents
-            relevant_docs = [documents[i] for i, _ in similarities[:top_k]]
-
-            logging.info(f"Retrieved {len(relevant_docs)} relevant documents for query: {query[:50]}...")
+            logger.info(f"Retrieved {len(relevant_docs)} relevant documents")
             return relevant_docs
         except Exception as e:
-            logging.error(f"Error retrieving relevant documents: {str(e)}")
+            logger.error(f"Error retrieving relevant documents: {str(e)}")
             return []
+
+    def get_vector_store_stats(self) -> Dict[str, Any]:
+        """
+        Get statistics about the vector store.
+
+        Returns:
+            Dictionary with vector store statistics
+        """
+        try:
+            return self.vector_store.get_collection_stats()
+        except Exception as e:
+            logger.error(f"Error getting vector store stats: {str(e)}")
+            return {"error": str(e)}
 
     def get_document_stats(self):
         """
@@ -209,3 +198,4 @@ class RAGManager:
         except Exception as e:
             logging.error(f"Error getting document stats: {str(e)}")
             return {"error": f"Failed to get document stats: {str(e)}"}
+

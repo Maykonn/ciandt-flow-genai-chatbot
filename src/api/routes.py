@@ -14,6 +14,7 @@ class HealthResponse(BaseModel):
     status: str
     flow_api_connected: bool
     rag_documents_valid: bool
+    vector_store_initialized: bool  # Add this field
     details: Dict[str, Any] = {}
 
 
@@ -28,27 +29,33 @@ async def health_check():
     # Check RAG documents path
     rag_valid = validate_rag_documents_path(settings.rag_documents_path)
     
-    if not flow_connected:
-        return HealthResponse(
-            status="warning",
-            flow_api_connected=flow_connected,
-            rag_documents_valid=rag_valid,
-            details={"flow_api": "Connection failed"}
-        )
-    
-    if not rag_valid:
-        return HealthResponse(
-            status="warning",
-            flow_api_connected=flow_connected,
-            rag_documents_valid=rag_valid,
-            details={"rag_documents": "Invalid path"}
-        )
-    
+    # Check vector store
+    vector_store_initialized = False
+    vector_store_details = {}
+    try:
+        from src.rag.vector_store import VectorStore
+        vector_store = VectorStore()
+        stats = vector_store.get_collection_stats()
+        vector_store_initialized = True
+        vector_store_details = stats
+    except Exception as e:
+        vector_store_details = {"error": str(e)}
+
+    # Determine status based on conditions
+    status = "healthy"  # Default status
+    if not flow_connected or not rag_valid or not vector_store_initialized:
+        status = "warning"
+
     return HealthResponse(
-        status="healthy",
+        status=status,
         flow_api_connected=flow_connected,
         rag_documents_valid=rag_valid,
-        details={"flow_api": flow_details}
+        vector_store_initialized=vector_store_initialized,
+        details={
+            "flow_api": flow_details or {"error": "Connection failed"},
+            "rag_documents": {"valid": rag_valid},
+            "vector_store": vector_store_details
+        }
     )
 
 
@@ -128,7 +135,7 @@ async def generate_text(request: GenerateTextRequest):
                 model=request.model,
                 stream=request.stream
             )
-        
+
         return GenerateTextResponse(**response)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate text: {str(e)}")
