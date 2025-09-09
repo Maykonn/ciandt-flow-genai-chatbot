@@ -34,6 +34,8 @@ source/
 # RAG documents folder (keep the folder but not its contents)
 data/rag_documents/*
 !data/rag_documents/.gitkeep
+data/vector_db/*
+!data/vector_db/.gitkeep
 
 # IDE specific files
 .idea/
