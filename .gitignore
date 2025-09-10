@@ -34,6 +34,7 @@ source/
 # RAG documents folder (keep the folder but not its contents)
 data/rag_documents/*
 !data/rag_documents/.gitkeep
+!data/rag_documents/Bankruptcy fictional contract gemini 2.5pro.pdf
 data/vector_db/*
 !data/vector_db/.gitkeep
 

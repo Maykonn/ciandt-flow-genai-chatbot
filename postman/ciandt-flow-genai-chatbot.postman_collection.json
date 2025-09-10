@@ -7,181 +7,274 @@
   },
   "item": [
     {
-      "name": "Root Endpoint",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/",
-          "host": ["{{baseUrl}}"],
-          "path": [""]
+      "name": "Basic Endpoints",
+      "item": [
+        {
+          "name": "Root Endpoint",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            },
+            "description": "Root endpoint that returns a welcome message"
+          },
+          "response": []
         },
-        "description": "Root endpoint that returns a welcome message"
-      },
-      "response": []
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Check the health of the application, Flow API connection, and RAG documents path"
+          },
+          "response": []
+        }
+      ],
+      "description": "Basic endpoints for checking application status and health"
     },
     {
-      "name": "Health Check",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/api/health",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "health"]
+      "name": "RAG Operations",
+      "item": [
+        {
+          "name": "Get Document Stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "stats"]
+            },
+            "description": "Get statistics about the documents in the RAG folder"
+          },
+          "response": []
         },
-        "description": "Check the health of the application, Flow API connection, and RAG documents path"
-      },
-      "response": []
+        {
+          "name": "Process Documents",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "process"]
+            },
+            "description": "Load and process documents from the RAG folder"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Documents with Indexing",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/process?index_to_vector_store=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "process"],
+              "query": [
+                {
+                  "key": "index_to_vector_store",
+                  "value": "true",
+                  "description": "Whether to index documents to the vector store"
+                }
+              ]
+            },
+            "description": "Load and process documents from the RAG folder and index them to the vector store"
+          },
+          "response": []
+        },
+        {
+          "name": "Initialize Embeddings",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/initialize-embeddings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "initialize-embeddings"]
+            },
+            "description": "Initialize the embedding model"
+          },
+          "response": []
+        }
+      ],
+      "description": "Operations related to RAG document processing and embeddings"
     },
     {
-      "name": "Generate Text",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/generate",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "generate"]
+      "name": "Vector Store",
+      "item": [
+        {
+          "name": "Get Vector Store Stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/vector-store",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "vector-store"]
+            },
+            "description": "Get statistics about the vector store"
+          },
+          "response": []
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"prompt\": \"What is artificial intelligence?\",\n    \"max_tokens\": 3000,\n    \"model\": \"gpt-4o\",\n    \"stream\": false\n}"
+        {
+          "name": "Query Vector Store",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "query"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"query\": \"What is artificial intelligence?\",\n    \"top_k\": 3\n}"
+            },
+            "description": "Query the vector store for relevant documents"
+          },
+          "response": []
         },
-        "description": "Generate text using the Flow API's OpenAI Chat Completions endpoint"
-      },
-      "response": []
+        {
+          "name": "Reindex Documents",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/reindex?force=false",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "reindex"],
+              "query": [
+                {
+                  "key": "force",
+                  "value": "false",
+                  "description": "Whether to force reindexing by clearing the vector store first"
+                }
+              ]
+            },
+            "description": "Reindex all documents in the RAG folder"
+          },
+          "response": []
+        },
+        {
+          "name": "Clear Vector Store",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/rag/vector-store",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rag", "vector-store"]
+            },
+            "description": "Clear all documents from the vector store"
+          },
+          "response": []
+        }
+      ],
+      "description": "Operations related to the vector store for document embeddings"
     },
     {
-      "name": "RAG - Get Document Stats",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/stats",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "stats"]
+      "name": "Text Generation",
+      "item": [
+        {
+          "name": "Generate Text (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "generate"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"prompt\": \"What is artificial intelligence?\",\n    \"max_tokens\": 3000,\n    \"model\": \"gpt-4o\",\n    \"stream\": false,\n    \"use_rag\": false\n}"
+            },
+            "description": "Generate text using the Flow API's OpenAI Chat Completions endpoint without RAG"
+          },
+          "response": []
         },
-        "description": "Get statistics about the documents in the RAG folder"
-      },
-      "response": []
-    },
-    {
-      "name": "RAG - Process Documents",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/process",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "process"]
+        {
+          "name": "Generate Text (RAG Enabled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "generate"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"prompt\": \"Who is the debtor?\",\n    \"max_tokens\": 3000,\n    \"model\": \"gpt-4o\",\n    \"stream\": false,\n    \"use_rag\": true\n}"
+            },
+            "description": "Generate text using the Flow API with RAG enhancement"
+          },
+          "response": []
         },
-        "description": "Load and process documents from the RAG folder"
-      },
-      "response": []
-    },
-    {
-      "name": "RAG - Initialize Embeddings",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/initialize-embeddings",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "initialize-embeddings"]
+        {
+          "name": "Generate Text with Messages (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "generate"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"prompt\": \"What is artificial intelligence?\",\n    \"max_tokens\": 3000,\n    \"model\": \"gpt-4o\",\n    \"stream\": false,\n    \"messages\": [\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"What is artificial intelligence?\"}\n    ]\n}"
+            },
+            "description": "Generate text using the Flow API with message-based input"
+          },
+          "response": []
         },
-        "description": "Initialize the embedding model"
-      },
-      "response": []
-    },
-    {
-      "name": "Vector Store - Get Stats",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/vector-store",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "vector-store"]
-        },
-        "description": "Get statistics about the vector store"
-      },
-      "response": []
-    },
-    {
-      "name": "Vector Store - Clear",
-      "request": {
-        "method": "DELETE",
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/vector-store",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "vector-store"]
-        },
-        "description": "Clear all documents from the vector store"
-      },
-      "response": []
-    },
-    {
-      "name": "Vector Store - Query",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/query",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "query"]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"query\": \"What is artificial intelligence?\",\n    \"top_k\": 3\n}"
-        },
-        "description": "Query the vector store for relevant documents"
-      },
-      "response": []
-    },
-    {
-      "name": "RAG - Reindex Documents",
-      "request": {
-        "method": "POST",
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/reindex?force=false",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "reindex"],
-          "query": [
-            {
-              "key": "force",
-              "value": "false",
-              "description": "Whether to force reindexing by clearing the vector store first"
-            }
-          ]
-        },
-        "description": "Reindex all documents in the RAG folder"
-      },
-      "response": []
-    },
-    {
-      "name": "RAG - Process Documents with Indexing",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/api/rag/process?index_to_vector_store=true",
-          "host": ["{{baseUrl}}"],
-          "path": ["api", "rag", "process"],
-          "query": [
-            {
-              "key": "index_to_vector_store",
-              "value": "true",
-              "description": "Whether to index documents to the vector store"
-            }
-          ]
-        },
-        "description": "Load and process documents from the RAG folder and index them to the vector store"
-      },
-      "response": []
+        {
+          "name": "Generate Text with Messages (RAG Enabled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "generate"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"prompt\": \"Who is the debtor?\",\n    \"max_tokens\": 3000,\n    \"model\": \"gpt-4o\",\n    \"stream\": false,\n    \"use_rag\": true,\n    \"messages\": [\n        {\"role\": \"system\", \"content\": \"Provide deep technical information about the context.\"},\n        {\"role\": \"assistant\", \"content\": \"Jane Doe\"},\n        {\"role\": \"user\", \"content\": \"What are the payment terms?\"}\n    ]\n}"
+            },
+            "description": "Generate text using the Flow API with message-based input"
+          },
+          "response": []
+        }
+      ],
+      "description": "Operations related to text generation with and without RAG"
     }
   ],
   "event": [
