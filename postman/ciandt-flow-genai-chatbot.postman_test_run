@@ -1,0 +1,757 @@
+{
+	"id": "371264f2-654f-4584-9bbf-87d48895d249",
+	"name": "CI&T Flow GenAI Chatbot Copy",
+	"timestamp": "2025-09-12T14:03:22.777Z",
+	"collection_id": "536145-19341c90-1566-4112-9d7f-3f9ecb251ce6",
+	"folder_id": 0,
+	"environment_id": "536145-dea1fd82-9bca-4a3d-9432-aa1ce34c11dc",
+	"totalPass": 60,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-09-12T14:02:31.266Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "947ffad8-c6d2-4307-ad33-afd1adc64439",
+			"name": "Root Endpoint",
+			"url": "http://localhost:8000/",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains welcome message": true,
+				"Response time is acceptable": true,
+				"Response has correct content-type header": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains welcome message": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is acceptable": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has correct content-type header": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains welcome message": true,
+					"Response time is acceptable": true,
+					"Response has correct content-type header": true
+				}
+			]
+		},
+		{
+			"id": "214b3ad8-6437-4fdd-b677-85209a76b0bb",
+			"name": "Health Check",
+			"url": "http://localhost:8000/api/health",
+			"time": 3365,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains health status": true,
+				"Flow API is connected": true,
+				"RAG documents are valid": true,
+				"Vector store is initialized": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains health status": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Flow API is connected": {
+					"pass": 1,
+					"fail": 0
+				},
+				"RAG documents are valid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Vector store is initialized": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3365
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains health status": true,
+					"Flow API is connected": true,
+					"RAG documents are valid": true,
+					"Vector store is initialized": true
+				}
+			]
+		},
+		{
+			"id": "5b6e18c6-c204-4cf7-86d1-e25722387d5c",
+			"name": "Clear Vector Store",
+			"url": "http://localhost:8000/api/rag/vector-store",
+			"time": 2014,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response confirms vector store clearance": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response confirms vector store clearance": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2014
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response confirms vector store clearance": true
+				}
+			]
+		},
+		{
+			"id": "3113c435-e742-44e7-b3f4-97c977d873ff",
+			"name": "Get Document Stats",
+			"url": "http://localhost:8000/api/rag/stats",
+			"time": 2024,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains document stats": true,
+				"Document stats are consistent": true,
+				"At least one document is available": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains document stats": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Document stats are consistent": {
+					"pass": 1,
+					"fail": 0
+				},
+				"At least one document is available": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2024
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains document stats": true,
+					"Document stats are consistent": true,
+					"At least one document is available": true
+				}
+			]
+		},
+		{
+			"id": "a7218deb-c902-440d-a27e-48b18f0cef21",
+			"name": "Process Documents",
+			"url": "http://localhost:8000/api/rag/process",
+			"time": 3111,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains processed documents": true,
+				"Document count matches array length": true,
+				"Documents have required properties": true,
+				"Processed document count is consistent with document stats": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains processed documents": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Document count matches array length": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Documents have required properties": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Processed document count is consistent with document stats": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3111
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains processed documents": true,
+					"Document count matches array length": true,
+					"Documents have required properties": true,
+					"Processed document count is consistent with document stats": true
+				}
+			]
+		},
+		{
+			"id": "5dd45f8d-dd78-4f7a-a9d2-0e59b7eb79ce",
+			"name": "Process Documents with Indexing",
+			"url": "http://localhost:8000/api/rag/process?index_to_vector_store=true",
+			"time": 3127,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains indexed documents": true,
+				"Document count matches array length": true,
+				"Indexed document count matches processed document count": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains indexed documents": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Document count matches array length": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Indexed document count matches processed document count": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3127
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains indexed documents": true,
+					"Document count matches array length": true,
+					"Indexed document count matches processed document count": true
+				}
+			]
+		},
+		{
+			"id": "5255840b-c82c-450f-b935-5b68bd0d6447",
+			"name": "Initialize Embeddings",
+			"url": "http://localhost:8000/api/rag/initialize-embeddings",
+			"time": 4680,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains embedding model initialization": true,
+				"Embedding model matches health check": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains embedding model initialization": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Embedding model matches health check": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4680
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains embedding model initialization": true,
+					"Embedding model matches health check": true
+				}
+			]
+		},
+		{
+			"id": "1ee4300e-37ab-4924-af96-5079cd004d58",
+			"name": "Get Vector Store Stats",
+			"url": "http://localhost:8000/api/rag/vector-store",
+			"time": 2198,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains vector store stats": true,
+				"Embedding model matches health check": true,
+				"Vector store contains documents after indexing": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains vector store stats": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Embedding model matches health check": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Vector store contains documents after indexing": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2198
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains vector store stats": true,
+					"Embedding model matches health check": true,
+					"Vector store contains documents after indexing": true
+				}
+			]
+		},
+		{
+			"id": "27622ebc-fdd7-4711-aef7-58878359e811",
+			"name": "Query Vector Store",
+			"url": "http://localhost:8000/api/rag/query",
+			"time": 2295,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains relevant documents": true,
+				"Results contain required properties": true,
+				"Number of results matches requested top_k": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains relevant documents": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Results contain required properties": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Number of results matches requested top_k": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2295
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains relevant documents": true,
+					"Results contain required properties": true,
+					"Number of results matches requested top_k": true
+				}
+			]
+		},
+		{
+			"id": "0395ca86-f6d4-4a06-9df6-940063dc84b0",
+			"name": "Reindex Documents",
+			"url": "http://localhost:8000/api/rag/reindex?force=false",
+			"time": 3367,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains reindexing confirmation": true,
+				"Document count is reported": true,
+				"Reindexed document count is consistent with processed count": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains reindexing confirmation": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Document count is reported": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Reindexed document count is consistent with processed count": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3367
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains reindexing confirmation": true,
+					"Document count is reported": true,
+					"Reindexed document count is consistent with processed count": true
+				}
+			]
+		},
+		{
+			"id": "345540ac-d95b-4750-835c-da937604d4b2",
+			"name": "Generate Text (Basic)",
+			"url": "http://localhost:8000/api/generate",
+			"time": 4306,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains generated text": true,
+				"Response contains full_response with OpenAI data": true,
+				"Generated text is relevant to the prompt": true,
+				"Token usage is reported": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains generated text": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains full_response with OpenAI data": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Generated text is relevant to the prompt": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Token usage is reported": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4306
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains generated text": true,
+					"Response contains full_response with OpenAI data": true,
+					"Generated text is relevant to the prompt": true,
+					"Token usage is reported": true
+				}
+			]
+		},
+		{
+			"id": "9c6ef293-5dad-497d-bf4d-265905bfc37c",
+			"name": "Generate Text (RAG Enabled)",
+			"url": "http://localhost:8000/api/generate",
+			"time": 5948,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains generated text with RAG": true,
+				"Response contains full_response with OpenAI data": true,
+				"Generated text is relevant to the prompt and RAG context": true,
+				"Token usage with RAG is higher than without RAG": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains generated text with RAG": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains full_response with OpenAI data": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Generated text is relevant to the prompt and RAG context": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Token usage with RAG is higher than without RAG": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5948
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains generated text with RAG": true,
+					"Response contains full_response with OpenAI data": true,
+					"Generated text is relevant to the prompt and RAG context": true,
+					"Token usage with RAG is higher than without RAG": true
+				}
+			]
+		},
+		{
+			"id": "03fa4112-d30b-42e8-af9b-10665b640815",
+			"name": "Generate Text with Messages (Basic)",
+			"url": "http://localhost:8000/api/generate",
+			"time": 6978,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains generated text from messages": true,
+				"Response contains full_response with OpenAI data": true,
+				"Generated text is relevant to the messages": true,
+				"Message-based generation uses more tokens than basic prompt": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains generated text from messages": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains full_response with OpenAI data": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Generated text is relevant to the messages": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message-based generation uses more tokens than basic prompt": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6978
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains generated text from messages": true,
+					"Response contains full_response with OpenAI data": true,
+					"Generated text is relevant to the messages": true,
+					"Message-based generation uses more tokens than basic prompt": true
+				}
+			]
+		},
+		{
+			"id": "e6245480-6ac7-4d7c-9ed4-6b9fc8b94972",
+			"name": "Generate Text with Messages (RAG Enabled)",
+			"url": "http://localhost:8000/api/generate",
+			"time": 6404,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response contains generated text from messages with RAG": true,
+				"Response contains full_response with OpenAI data": true,
+				"Generated text is relevant to the messages and RAG context": true,
+				"RAG with messages uses the most tokens": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains generated text from messages with RAG": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains full_response with OpenAI data": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Generated text is relevant to the messages and RAG context": {
+					"pass": 1,
+					"fail": 0
+				},
+				"RAG with messages uses the most tokens": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6404
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response contains generated text from messages with RAG": true,
+					"Response contains full_response with OpenAI data": true,
+					"Generated text is relevant to the messages and RAG context": true,
+					"RAG with messages uses the most tokens": true
+				}
+			]
+		},
+		{
+			"id": "5964bb5c-34fd-493b-9158-0117277a3306",
+			"name": "Check Environment Variables",
+			"url": "http://localhost:8000/",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Check currentRunResponsePayloads": true
+			},
+			"testPassFailCounts": {
+				"Check currentRunResponsePayloads": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Check currentRunResponsePayloads": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 49825,
+	"collection": {
+		"requests": [
+			{
+				"id": "947ffad8-c6d2-4307-ad33-afd1adc64439",
+				"method": "GET"
+			},
+			{
+				"id": "214b3ad8-6437-4fdd-b677-85209a76b0bb",
+				"method": "GET"
+			},
+			{
+				"id": "5b6e18c6-c204-4cf7-86d1-e25722387d5c",
+				"method": "DELETE"
+			},
+			{
+				"id": "3113c435-e742-44e7-b3f4-97c977d873ff",
+				"method": "GET"
+			},
+			{
+				"id": "a7218deb-c902-440d-a27e-48b18f0cef21",
+				"method": "GET"
+			},
+			{
+				"id": "5dd45f8d-dd78-4f7a-a9d2-0e59b7eb79ce",
+				"method": "GET"
+			},
+			{
+				"id": "5255840b-c82c-450f-b935-5b68bd0d6447",
+				"method": "GET"
+			},
+			{
+				"id": "1ee4300e-37ab-4924-af96-5079cd004d58",
+				"method": "GET"
+			},
+			{
+				"id": "27622ebc-fdd7-4711-aef7-58878359e811",
+				"method": "POST"
+			},
+			{
+				"id": "0395ca86-f6d4-4a06-9df6-940063dc84b0",
+				"method": "POST"
+			},
+			{
+				"id": "345540ac-d95b-4750-835c-da937604d4b2",
+				"method": "POST"
+			},
+			{
+				"id": "9c6ef293-5dad-497d-bf4d-265905bfc37c",
+				"method": "POST"
+			},
+			{
+				"id": "03fa4112-d30b-42e8-af9b-10665b640815",
+				"method": "POST"
+			},
+			{
+				"id": "e6245480-6ac7-4d7c-9ed4-6b9fc8b94972",
+				"method": "POST"
+			},
+			{
+				"id": "5964bb5c-34fd-493b-9158-0117277a3306",
+				"method": "GET"
+			}
+		]
+	}
+}

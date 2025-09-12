@@ -6,6 +6,7 @@ This folder contains Postman collections and environments for testing the CI&T F
 
 - `ciandt-flow-genai-chatbot.postman_collection.json`: The main Postman collection with all API endpoints
 - `ciandt-flow-genai-chatbot-local.postman_environment.json`: Environment variables for local development
+- `ciandt-flow-genai-chatbot.postman_test_run`: Results from the latest test run, showing test outcomes and performance metrics
 
 ## How to Import
 
@@ -102,6 +103,67 @@ The Collection Runner in Postman allows you to run all requests in a collection 
 4. **Review Results**:
    - After the run completes, review the results to see which tests passed or failed.
    - Click on individual requests in the runner to see detailed results and logs.
+   - You can export the test run results as a JSON file for documentation or analysis.
+
+## Test Results Visualization
+
+The collection includes a special "Check Environment Variables" request that provides a visualization of all test results. This request:
+
+1. Collects all response data from previous requests stored in the environment variable
+2. Displays a summary table of all stored responses
+3. Shows key statistics about the API's performance
+
+## Current Test Results
+
+The most recent test run (September 12, 2025) shows:
+
+- **Total Tests**: 60
+- **Passed Tests**: 60
+- **Failed Tests**: 0
+- **Total Run Time**: 49.8 seconds
+
+### Detailed Test Results
+
+| Endpoint | Response Time (ms) | Tests Passed | Key Tests |
+|----------|-------------------|--------------|-----------|
+| Root Endpoint | 4 | 4/4 | Status code, Welcome message, Response time, Content-type |
+| Health Check | 3,365 | 5/5 | Status code, Health status, Flow API connection, RAG documents, Vector store |
+| Clear Vector Store | 2,014 | 2/2 | Status code, Vector store clearance |
+| Get Document Stats | 2,024 | 4/4 | Status code, Document stats, Stats consistency, Document availability |
+| Process Documents | 3,111 | 5/5 | Status code, Processed documents, Document count, Required properties, Consistency |
+| Process Documents with Indexing | 3,127 | 4/4 | Status code, Indexed documents, Document count, Count matching |
+| Initialize Embeddings | 4,680 | 3/3 | Status code, Embedding model, Model matching |
+| Get Vector Store Stats | 2,198 | 4/4 | Status code, Vector store stats, Embedding model, Document presence |
+| Query Vector Store | 2,295 | 4/4 | Status code, Relevant documents, Required properties, Result count |
+| Reindex Documents | 3,367 | 4/4 | Status code, Reindexing confirmation, Document count, Count consistency |
+| Generate Text (Basic) | 4,306 | 5/5 | Status code, Generated text, OpenAI data, Relevance, Token usage |
+| Generate Text (RAG Enabled) | 5,948 | 5/5 | Status code, RAG text, OpenAI data, RAG relevance, Token usage |
+| Generate Text with Messages (Basic) | 6,978 | 5/5 | Status code, Message text, OpenAI data, Message relevance, Token usage |
+| Generate Text with Messages (RAG Enabled) | 6,404 | 5/5 | Status code, RAG message text, OpenAI data, Context relevance, Token usage |
+| Check Environment Variables | 4 | 1/1 | Environment variable validation |
+
+### Key Statistics
+
+- **Total Documents**: 1
+- **Vector Store Documents**: 632
+- **Embedding Model**: sentence-transformers/all-MiniLM-L6-v2
+- **Token Usage Comparison**:
+  - Basic Generation: 299 tokens
+  - RAG Generation: 355 tokens
+  - Messages Generation: 596 tokens
+  - RAG+Messages Generation: 1,129 tokens
+
+This demonstrates how combining RAG with conversation history significantly increases token usage but provides more contextually relevant responses.
+
+### Performance Analysis
+
+| Request Type | Average Response Time (ms) | Notes |
+|--------------|----------------------------|-------|
+| Basic Endpoints | 1,685 | Fast responses for basic health checks |
+| RAG Operations | 3,236 | Moderate processing time for document operations |
+| Vector Store Operations | 2,469 | Efficient vector store management |
+| Text Generation | 5,909 | Longer processing for AI text generation |
+| RAG + Messages | 6,404 | Most complex operation with highest processing time |
 
 ## Adding Tests
 
@@ -122,3 +184,4 @@ pm.test("Response has expected fields", function () {
     pm.expect(jsonData).to.have.property('text');
     pm.expect(jsonData).to.have.property('full_response');
 });
+```
