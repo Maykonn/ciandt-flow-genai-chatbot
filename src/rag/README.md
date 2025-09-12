@@ -21,6 +21,56 @@ Our RAG system consists of five main components:
 └─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
 ```
 
+## Performance and Testing
+
+### Performance Metrics
+
+Based on our latest test runs (September 2025), the RAG system shows the following performance characteristics:
+
+| Operation | Average Response Time (ms) |
+|-----------|----------------------------|
+| Document Processing | 3,127 |
+| Embedding Initialization | 4,680 |
+| Vector Store Query | 2,295 |
+| Text Generation with RAG | 5,948 |
+| Text Generation with RAG + Messages | 6,404 |
+
+### Token Usage Analysis
+
+RAG significantly impacts token usage in LLM requests:
+
+| Generation Method | Total Tokens | Notes |
+|-------------------|--------------|-------|
+| Basic Generation | 299 | Baseline without RAG |
+| RAG Generation | 355 | +19% tokens vs. baseline |
+| Messages Generation | 596 | +99% tokens vs. baseline |
+| RAG + Messages Generation | 1,129 | +277% tokens vs. baseline |
+
+This demonstrates that while RAG increases token usage (and thus API costs), it provides more contextually relevant responses by grounding the LLM in your document knowledge.
+
+### Testing the RAG System
+
+The project includes a comprehensive Postman collection for testing all RAG components:
+
+1. **Document Statistics**: Test document loading and statistics collection
+2. **Document Processing**: Verify document chunking and metadata preservation
+3. **Embedding Generation**: Test embedding model initialization and vector generation
+4. **Vector Store Operations**: Test adding, querying, and clearing the vector store
+5. **RAG-Enhanced Generation**: Compare responses with and without RAG
+
+See the [postman/README.md](../../postman/README.md) file for detailed test results and instructions.
+
+### Quality vs. Cost Trade-offs
+
+When configuring your RAG system, consider these trade-offs:
+
+- **Chunk Size**: Smaller chunks improve retrieval precision but increase the number of chunks and storage requirements
+- **Number of Retrieved Documents**: More documents provide more context but increase token usage and costs
+- **Embedding Model**: Larger models may provide better retrieval quality but require more resources and processing time
+- **RAG + Conversation History**: Provides the most contextual awareness but has the highest token usage
+
+Our testing shows that RAG + Messages generation uses 3.8x more tokens than basic generation, but provides significantly more relevant and contextually grounded responses.
+
 ## Components in Detail
 
 ### DocumentLoader (`document_loader.py`)

@@ -108,15 +108,91 @@ The application can be deployed using Docker, Kubernetes, or any cloud platform 
 - **Security**: Protect API endpoints with authentication and rate limiting.
 - **Monitoring**: Implement logging and monitoring to track application performance and errors.
 
-## Future Enhancements
+## Performance Characteristics
 
-Potential improvements to the architecture include:
+Based on comprehensive testing (September 2025), the system demonstrates the following performance characteristics:
 
-- **Alternative Vector Stores**: Support for FAISS, Pinecone, or other vector databases.
-- **Hybrid Search**: Combine semantic search with keyword-based search.
-- **Advanced Metadata Filtering**: More sophisticated filtering by document source, date, or other metadata.
-- **Feedback Loop**: Incorporate user feedback to improve retrieval quality.
-- **Streaming Responses**: Support streaming for more responsive user experience.
+### Response Times
+
+| Component | Operation | Average Response Time (ms) |
+|-----------|-----------|----------------------------|
+| Basic Endpoints | Health Check | 3,365 |
+| RAG System | Document Processing | 3,127 |
+| RAG System | Embedding Initialization | 4,680 |
+| Vector Store | Query | 2,295 |
+| Vector Store | Reindex | 3,367 |
+| Text Generation | Basic Generation | 4,306 |
+| Text Generation | RAG-Enhanced Generation | 5,948 |
+| Text Generation | Message-Based Generation | 6,978 |
+| Text Generation | RAG + Messages Generation | 6,404 |
+
+### Token Usage Analysis
+
+The architecture's design impacts token usage in LLM requests:
+
+| Generation Method | Total Tokens | Relative Cost |
+|-------------------|--------------|---------------|
+| Basic Generation | 299 | Baseline |
+| RAG Generation | 355 | +19% |
+| Messages Generation | 596 | +99% |
+| RAG + Messages Generation | 1,129 | +277% |
+
+This demonstrates the trade-off between response quality and computational cost. The RAG + Messages approach provides the most contextually relevant responses but at a higher token usage.
+
+## Testing Architecture
+
+The system includes a comprehensive testing architecture to validate all components:
+
+```
+┌──────────────────────────┐
+│    Postman Collection    │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│    Automated Test Suite  │
+│    (60 Tests Across      │
+│     15 Endpoints)        │
+└────────────┬─────────────┘
+             │
+             ▼
+┌─────────────┬─────────────┐
+│             │             │
+▼             ▼             ▼
+┌──────────┐  ┌──────────┐  ┌──────────┐
+│  Basic   │  │   RAG    │  │  Text    │
+│ Endpoint │  │  System  │  │Generation│
+│  Tests   │  │  Tests   │  │  Tests   │
+└──────────┘  └──────────┘  └──────────┘
+```
+
+### Test Coverage
+
+- **Basic Endpoints**: 9 tests validating core functionality and health checks
+- **RAG System**: 20 tests covering document processing, embedding, and vector operations
+- **Vector Store**: 14 tests for storage, retrieval, and management operations
+- **Text Generation**: 20 tests comparing different generation methods and configurations
+
+All tests are automated and can be run using the provided Postman collection. See the [postman/README.md](postman/README.md) file for detailed test results and instructions.
+
+## Scalability Considerations
+
+Based on performance testing, the following scalability considerations should be addressed:
+
+1. **Embedding Generation**: The most resource-intensive operation (4,680ms average). Consider:
+   - Pre-computing embeddings for documents
+   - Implementing a queue system for large document collections
+   - Distributing embedding generation across multiple workers
+
+2. **Text Generation with RAG**: Requires significant processing time (5,948ms average). Consider:
+   - Implementing caching for common queries
+   - Optimizing the number of retrieved documents based on query complexity
+   - Using streaming responses for better user experience
+
+3. **Vector Store Performance**: Scales with document count (currently tested with 632 documents). Consider:
+   - Implementing sharding for very large document collections
+   - Using more efficient vector search algorithms for larger collections
+   - Periodic optimization of the vector store
 
 ## Conclusion
 
