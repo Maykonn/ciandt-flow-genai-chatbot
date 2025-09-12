@@ -179,13 +179,21 @@ This application includes a RAG system that enhances LLM responses with informat
 
 ## API Testing
 
-This project includes Postman collections for API testing. You can find them in the `postman` folder:
+This project includes comprehensive Postman collections for API testing. You can find them in the `postman` folder:
 
 - Import the collection and environment files into Postman
 - Set your Flow API token in the environment variables
 - Use the collection to test all API endpoints
 
-See the postman/README.md file for detailed instructions.
+The Postman collection includes:
+- 60 automated tests covering all API endpoints
+- Detailed performance metrics for each endpoint
+- Token usage analysis for different generation methods
+- Test visualization capabilities
+
+Recent test runs show 100% pass rate with an average response time of 3.3 seconds across all endpoints. Text generation with RAG and conversation history shows the highest token usage (1,129 tokens) but provides the most contextually relevant responses.
+
+See the [postman/README.md](postman/README.md) file for detailed instructions and complete test results.
 
 ## Testing
 
